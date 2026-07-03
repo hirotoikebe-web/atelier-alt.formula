@@ -1,0 +1,1 @@
+Place project video files here. Update the video field in content.js when a verified video path is available.
