@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — atelier alt.formula</title>
+  <meta name="description" content="Profile, practice, services, career, awards, and exhibitions of Hiroto Ikebe and atelier alt.formula.">
+  <meta property="og:title" content="About — atelier alt.formula">
+  <meta property="og:description" content="Profile, practice, services, career, awards, and exhibitions of Hiroto Ikebe and atelier alt.formula.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/top-01.jpg">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <noscript><style>.reveal,.reveal-text,.reveal-title,.reveal-image,.reveal-caption,.stagger-item,.image-mask,.slow-fade,.motion-word,.motion-line{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}</style></noscript>
+</head><body class="page-transition" data-page="about">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">atelier alt.formula</a>
+  <button class="menu-toggle" type="button">Menu</button>
+  <nav class="site-nav" aria-label="Main navigation"><a href="index.html">Top</a><a href="about.html">About</a><a href="archives.html">Archives</a><a href="projects.html">Projects</a><a href="research.html">Research</a><a href="news.html">News</a><a href="contact.html">Contact</a></nav>
+</header>
+<main id="main">
+  <section class="hero full"><div class="hero-copy stack-lg"><p class="eyebrow reveal-text">About</p><h1 class="reveal-title">Material as memory. Form as formula.</h1><p class="lead reveal-text">atelier alt.formula crosses art, textiles, space, and craft to re-examine material, structure, body, and space through research-based practice.</p></div></section>
+  <section class="section rule" id="about-profile"></section>
+  <section class="section compact"><div class="two-col"><p class="eyebrow reveal-text">Services</p><div id="services" class="process-grid"></div></div></section>
+  <section class="section compact rule"><div class="three-col"><div class="stack"><h2 class="reveal-title">Career</h2><ul id="careers">
+  <li>
+    <strong>Education</strong><br>
+    <span>He graduated from the Textile Design Course, Department of Product Design at Tama Art University, and studied as an exchange student at the University of Applied Arts Vienna.</span>
+  </li>
+  <li>
+    <strong>EUGENE STUDIO (2024–Present)</strong><br>
+    <span>Involved in installation design / Art work, material research, and the planning and production of textile-based artworks. Participating in large-scale international museum projects, including those in Bali.</span>
+  </li>
+</ul></div><div class="stack"><h2 class="reveal-title">Awards & Selections</h2><ul id="awards"></ul></div><div class="stack"><h2 class="reveal-title">Exhibitions & Presentations</h2><ul id="exhibitions"></ul></div></div></section>
+</main>
+<footer class="site-footer">
+  <div class="stack">
+    <p class="logo">atelier alt.formula</p>
+    <p class="small">Silent Archive / Material Archaeology. HTML, CSS, and Vanilla JavaScript only.</p>
+  </div>
+  <div class="footer-links"><a href="mailto:ikebeh84@gmail.com">Email</a><a href="https://www.instagram.com/hiroto_ikebe_555/" target="_blank" rel="noopener">Instagram</a><a href="#main">Back to top</a></div>
+</footer>
+<button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">↑</button>
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview"><button class="lightbox-close" type="button">Close</button><img src="" alt="Expanded archive image"><div class="lightbox-caption"></div></div>
+<script src="content.js"></script>
+<script src="main.js"></script>
+<script>
+(function () {
+  const careerList = document.getElementById('careers');
+  if (!careerList) return;
+
+  const careerHTML = `
+    <li>
+      <strong>Education</strong><br>
+      <span>He graduated from the Textile Design Course, Department of Product Design at Tama Art University, and studied as an exchange student at the University of Applied Arts Vienna.</span>
+    </li>
+    <li>
+      <strong>EUGENE STUDIO (2024–Present)</strong><br>
+      <span>Involved in installation design / Art work, material research, and the planning and production of textile-based artworks. Participating in large-scale international museum projects, including those in Bali.</span>
+    </li>
+  `;
+
+  const renderCareerOnly = () => {
+    if (careerList.innerHTML.trim() !== careerHTML.trim()) {
+      careerList.innerHTML = careerHTML;
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCareerOnly();
+
+    const observer = new MutationObserver(() => {
+      renderCareerOnly();
+    });
+
+    observer.observe(careerList, { childList: true, subtree: true });
+  });
+})();
+</script>
+</body>
+</html>

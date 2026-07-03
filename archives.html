@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Archives — atelier alt.formula</title>
+  <meta name="description" content="Exhibition and project archive including DESIGNART, Fashion Frontier Program, PHANTOM IN THE COCOON, and installation works.">
+  <meta property="og:title" content="Archives — atelier alt.formula">
+  <meta property="og:description" content="Exhibition and project archive including DESIGNART, Fashion Frontier Program, PHANTOM IN THE COCOON, and installation works.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/top-01.jpg">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <noscript><style>.reveal,.reveal-text,.reveal-title,.reveal-image,.reveal-caption,.stagger-item,.image-mask,.slow-fade,.motion-word,.motion-line{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}</style></noscript>
+</head><body class="page-transition" data-page="archives">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="logo" href="index.html">atelier alt.formula</a>
+  <button class="menu-toggle" type="button">Menu</button>
+  <nav class="site-nav" aria-label="Main navigation"><a href="index.html">Top</a><a href="about.html">About</a><a href="archives.html">Archives</a><a href="projects.html">Projects</a><a href="research.html">Research</a><a href="news.html">News</a><a href="contact.html">Contact</a></nav>
+</header>
+<main id="main">
+  <section class="hero full"><div class="hero-copy stack-lg"><p class="eyebrow reveal-text">Archives</p><h1 class="reveal-title">Records of making, showing, and transforming.</h1><p class="lead reveal-text">Archives are not only lists of achievements. They are accumulated records of material decisions, exhibitions, collaborators, and visual documentation.</p></div></section>
+  <div id="archive-list"></div>
+</main>
+<footer class="site-footer">
+  <div class="stack">
+    <p class="logo">atelier alt.formula</p>
+    <p class="small">Silent Archive / Material Archaeology. HTML, CSS, and Vanilla JavaScript only.</p>
+  </div>
+  <div class="footer-links"><a href="mailto:ikebeh84@gmail.com">Email</a><a href="https://www.instagram.com/hiroto_ikebe_555/" target="_blank" rel="noopener">Instagram</a><a href="#main">Back to top</a></div>
+</footer>
+<button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">↑</button>
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview"><button class="lightbox-close" type="button">Close</button><img src="" alt="Expanded archive image"><div class="lightbox-caption"></div></div>
+<script src="content.js"></script>
+<script src="main.js"></script>
+
+<script>
+(function () {
+  const targetPatterns = [
+    'GOOD DESIGN NEW HOPE AWARD Archive',
+    'GOOD DESIGN NEW HOPE AWARD',
+    'Good Design New Hope Award'
+  ];
+
+  const sourcePatterns = [
+    'PNEUMA',
+    'Pneuma'
+  ];
+
+  // Fallback paths used only when a PNEUMA archive item cannot be found on the rendered page.
+  const fallbackPneumaImages = [
+    'assets/images/pneuma-01.jpg',
+    'assets/images/pneuma-02.jpg',
+    'assets/images/pneuma-03.jpg',
+    'assets/images/pneuma-04.jpg',
+    'assets/images/pneuma-05.jpg',
+    'assets/images/pneuma-1.jpg',
+    'assets/images/pneuma-2.jpg',
+    'assets/images/pneuma-3.jpg',
+    'assets/images/pneuma.jpg',
+    'assets/images/PNEUMA.jpg',
+    'assets/images/archive-pneuma-01.jpg',
+    'assets/images/archive-pneuma-02.jpg',
+    'assets/images/good-design-new-hope-pneuma.jpg',
+    'assets/images/good-design-new-hope-award-01.jpg'
+  ];
+
+  const archiveRoot = document.getElementById('archive-list') || document.body;
+
+  const normalize = (text) => {
+    return (text || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  };
+
+  const includesAny = (text, patterns) => {
+    const normalized = normalize(text);
+    return patterns.some((pattern) => normalized.includes(normalize(pattern)));
+  };
+
+  const getArchiveBlock = (element) => {
+    return element.closest('article, section, li, .archive-card, .archive-item, .project-card, .card, [data-title], [data-archive]') || element;
+  };
+
+  const getUniqueBlocksByText = (patterns, excludePatterns = []) => {
+    const selector = 'article, section, li, .archive-card, .archive-item, .project-card, .card, [data-title], [data-archive], h1, h2, h3, h4, a, p, div';
+    const candidates = Array.from(archiveRoot.querySelectorAll(selector));
+    const blocks = [];
+
+    candidates.forEach((candidate) => {
+      const text = candidate.textContent || '';
+      if (!includesAny(text, patterns)) return;
+      if (excludePatterns.length && includesAny(text, excludePatterns)) return;
+
+      const block = getArchiveBlock(candidate);
+      if (!block || !block.querySelector('img')) return;
+      if (!blocks.includes(block)) blocks.push(block);
+    });
+
+    return blocks;
+  };
+
+  const clearResponsiveSources = (img) => {
+    const picture = img.closest('picture');
+
+    if (picture) {
+      picture.querySelectorAll('source').forEach((source) => {
+        source.removeAttribute('srcset');
+        source.removeAttribute('sizes');
+      });
+    }
+
+    img.removeAttribute('srcset');
+    img.removeAttribute('sizes');
+  };
+
+  const setImageSource = (img, src, altText) => {
+    if (!img || !src) return;
+
+    clearResponsiveSources(img);
+
+    img.src = src;
+    img.alt = altText;
+    img.dataset.pneumaImageApplied = 'true';
+
+    const link = img.closest('a');
+    if (link && /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(link.getAttribute('href') || '')) {
+      link.setAttribute('href', src);
+    }
+  };
+
+  const collectPneumaSourcesFromPage = () => {
+    const sourceBlocks = getUniqueBlocksByText(sourcePatterns, targetPatterns);
+    const sources = [];
+
+    sourceBlocks.forEach((block) => {
+      block.querySelectorAll('img').forEach((img) => {
+        const src = img.getAttribute('src') || img.currentSrc || img.src;
+        if (src && !sources.includes(src)) sources.push(src);
+      });
+    });
+
+    return sources;
+  };
+
+  const preloadFallbackSources = (callback) => {
+    fallbackPneumaImages.forEach((path) => {
+      const testImage = new Image();
+
+      testImage.onload = () => {
+        callback(path);
+      };
+
+      testImage.src = path;
+    });
+  };
+
+  const applyPneumaImagesToGoodDesign = (sources) => {
+    const targetBlocks = getUniqueBlocksByText(targetPatterns);
+    if (!targetBlocks.length || !sources.length) return false;
+
+    targetBlocks.forEach((block) => {
+      const targetImages = Array.from(block.querySelectorAll('img'));
+
+      targetImages.forEach((img, index) => {
+        const source = sources[index % sources.length];
+        setImageSource(img, source, 'PNEUMA');
+      });
+    });
+
+    return true;
+  };
+
+  const run = () => {
+    const sourcesFromPage = collectPneumaSourcesFromPage();
+
+    if (sourcesFromPage.length) {
+      applyPneumaImagesToGoodDesign(sourcesFromPage);
+      return;
+    }
+
+    if (!archiveRoot.dataset.pneumaFallbackStarted) {
+      archiveRoot.dataset.pneumaFallbackStarted = 'true';
+
+      const fallbackSources = [];
+      preloadFallbackSources((path) => {
+        if (!fallbackSources.includes(path)) fallbackSources.push(path);
+        applyPneumaImagesToGoodDesign(fallbackSources);
+      });
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', run);
+  window.addEventListener('load', run);
+  [100, 300, 800, 1500, 2500].forEach((delay) => window.setTimeout(run, delay));
+
+  const observer = new MutationObserver(run);
+  observer.observe(archiveRoot, { childList: true, subtree: true });
+})();
+</script>
+
+</body>
+</html>
